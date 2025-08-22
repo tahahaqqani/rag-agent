@@ -1,0 +1,29 @@
+{
+  "title": "Vision Flows Assistant",
+  "subtitle": "Ask me anything about Vision Flows",
+  "logo": "",
+  "accent": "#121212",
+  "footer": "Vision Flows Agency @2025",
+  "suggested": [
+    "What services do you offer?",
+    "Can you show recent projects?",
+    "How does pricing work?",
+    "What's your typical timeline?"
+  ],
+  "theme": {
+    "primary_color": "#026CBD",
+    "secondary_color": "#dbdbdb",
+    "background_color": "#ffffff",
+    "text_color": "#333333",
+    "border_color": "#e9ecef"
+  },
+  "chat_settings": {
+    "max_context_length": 3000,
+    "temperature": 0.2,
+    "max_tokens": 140,
+    "enable_streaming": false
+  },
+  "chat_icon": "",
+  "chat_icon_text": "💬",
+  "last_updated": "2025-08-22T17:40:38.126444"
+}

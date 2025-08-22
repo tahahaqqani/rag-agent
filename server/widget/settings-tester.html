@@ -1,0 +1,1487 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chatbot Settings Designer</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --accent: #667eea;
+        --primary-color: #667eea;
+        --secondary-color: #764ba2;
+        --background-color: #ffffff;
+        --text-color: #1e293b;
+      }
+
+      body {
+        font-family: "Montserrat", -apple-system, BlinkMacSystemFont, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        color: #1a202c;
+        line-height: 1.6;
+      }
+
+      .container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 2rem;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+      }
+
+      .settings-panel {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        border-radius: 24px;
+        padding: 2rem;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .preview-panel {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        border-radius: 24px;
+        padding: 2rem;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .section-title {
+        font-size: 1.75rem;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        color: #1a202c;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      .section-title::before {
+        content: "";
+        width: 4px;
+        height: 2rem;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        border-radius: 2px;
+      }
+
+      .sub-section {
+        margin-bottom: 2rem;
+        padding: 1.5rem;
+        background: rgba(248, 250, 252, 0.8);
+        border-radius: 16px;
+        border: 1px solid rgba(226, 232, 240, 0.6);
+      }
+
+      .sub-section h3 {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #374151;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .form-group {
+        margin-bottom: 1.5rem;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+        color: #4b5563;
+        font-size: 0.9rem;
+      }
+
+      input,
+      textarea,
+      select {
+        width: 100%;
+        padding: 0.875rem 1rem;
+        border: 2px solid #e5e7eb;
+        border-radius: 12px;
+        font-size: 0.9rem;
+        font-family: inherit;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        background: white;
+      }
+
+      input:focus,
+      textarea:focus,
+      select:focus {
+        outline: none;
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        transform: translateY(-1px);
+      }
+
+      .color-input {
+        display: flex;
+        gap: 0.75rem;
+        align-items: center;
+      }
+
+      .color-input input[type="color"] {
+        width: 60px;
+        height: 48px;
+        padding: 0;
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+      }
+
+      .color-input input[type="color"]:hover {
+        transform: scale(1.05);
+      }
+
+      .color-input input[type="text"] {
+        flex: 1;
+      }
+
+      .button-group {
+        display: flex;
+        gap: 1rem;
+        margin-top: 2rem;
+        flex-wrap: wrap;
+      }
+
+      .btn {
+        padding: 0.875rem 1.5rem;
+        border: none;
+        border-radius: 12px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        font-family: inherit;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px -5px rgba(102, 126, 234, 0.4);
+      }
+
+      .btn-secondary {
+        background: #f3f4f6;
+        color: #374151;
+        border: 1px solid #d1d5db;
+      }
+
+      .btn-secondary:hover {
+        background: #e5e7eb;
+        transform: translateY(-1px);
+      }
+
+      .btn-danger {
+        background: linear-gradient(135deg, #ef4444, #dc2626);
+        color: white;
+      }
+
+      .btn-danger:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px -5px rgba(239, 68, 68, 0.4);
+      }
+
+      .chat-preview {
+        border: 2px solid #e5e7eb;
+        border-radius: 20px;
+        overflow: hidden;
+        background: white;
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+      }
+
+      .chat-preview:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+      }
+
+      .chat-header {
+        padding: 1.5rem;
+        text-align: center;
+        color: white;
+        transition: background-color 0.3s ease;
+      }
+
+      .chat-header h2 {
+        margin: 0;
+        font-size: 1.25rem;
+        font-weight: 600;
+      }
+
+      .chat-header p {
+        margin: 0.5rem 0 0 0;
+        opacity: 0.9;
+        font-size: 0.875rem;
+      }
+
+      .suggested-questions {
+        padding: 1.5rem 0;
+        background: transparent;
+        border: none;
+      }
+
+      .suggested-questions h3 {
+        margin: 0 0 1rem 0;
+        font-size: 0.75rem;
+        color: #64748b;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        font-weight: 600;
+      }
+
+      .question-chips {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        align-items: flex-start;
+      }
+
+      .question-chip {
+        background: transparent;
+        border: 1px solid #e2e8f0;
+        padding: 0.75rem 1rem;
+        border-radius: 12px;
+        font-size: 0.875rem;
+        color: #475569;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        font-weight: 500;
+        text-align: left;
+        width: auto;
+        max-width: 80%;
+        box-sizing: border-box;
+        display: inline-block;
+      }
+
+      .question-chip:hover {
+        background: #f1f5f9;
+        border-color: #cbd5e1;
+        transform: translateY(-1px);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .chat-log {
+        height: 200px;
+        padding: 1.5rem;
+        overflow-y: auto;
+        background: white;
+      }
+
+      .message {
+        margin-bottom: 1rem;
+      }
+
+      .message.user {
+        text-align: right;
+      }
+
+      .message.assistant {
+        text-align: left;
+      }
+
+      .message-bubble {
+        display: inline-block;
+        max-width: 80%;
+        padding: 0.75rem 1rem;
+        border-radius: 18px;
+        font-size: 0.875rem;
+        line-height: 1.5;
+        transition: all 0.2s ease;
+      }
+
+      .message.user .message-bubble {
+        background: var(--accent, #667eea);
+        color: white;
+        border-bottom-right-radius: 6px;
+      }
+
+      .message.assistant .message-bubble {
+        background: #f1f5f9;
+        color: #1e293b;
+        border-bottom-left-radius: 6px;
+      }
+
+      .input-form {
+        padding: 1.5rem;
+        border-top: 1px solid #e2e8f0;
+        background: white;
+      }
+
+      .input-container {
+        display: flex;
+        gap: 0.75rem;
+        align-items: center;
+      }
+
+      .input-field {
+        flex: 1;
+      }
+
+      .input-field textarea {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border: 1px solid #e2e8f0;
+        border-radius: 16px;
+        font-size: 0.875rem;
+        resize: none;
+        min-height: 44px;
+        max-height: 120px;
+        transition: all 0.2s ease;
+        font-family: inherit;
+        box-sizing: border-box;
+        line-height: 1.2;
+      }
+
+      .input-field textarea:focus {
+        border-color: var(--accent, #667eea);
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+      }
+
+      .send-button {
+        background: var(--accent, #667eea);
+        color: white;
+        border: none;
+        padding: 0.75rem 1rem;
+        border-radius: 16px;
+        font-size: 0.875rem;
+        font-weight: 600;
+        cursor: pointer;
+        min-width: 80px;
+        height: 44px;
+        transition: all 0.2s ease;
+        font-family: inherit;
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .send-button:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      }
+
+      .footer {
+        padding: 1rem 1.5rem;
+        text-align: center;
+        font-size: 0.75rem;
+        color: #64748b;
+        border-top: 1px solid #e2e8f0;
+        background: #f8fafc;
+        font-weight: 500;
+      }
+
+      .status {
+        padding: 1rem;
+        border-radius: 12px;
+        margin-bottom: 1.5rem;
+        font-weight: 500;
+        font-size: 0.875rem;
+        transition: all 0.3s ease;
+      }
+
+      .status.success {
+        background: #dcfce7;
+        color: #166534;
+        border: 1px solid #bbf7d0;
+      }
+
+      .status.error {
+        background: #fee2e2;
+        color: #991b1b;
+        border: 1px solid #fecaca;
+      }
+
+      .preview-description {
+        color: #6b7280;
+        margin-bottom: 1.5rem;
+        font-size: 0.9rem;
+      }
+
+      small {
+        display: block;
+        margin-top: 0.25rem;
+        color: #6b7280;
+        font-size: 0.8rem;
+        font-weight: 400;
+      }
+
+      @media (max-width: 1024px) {
+        .container {
+          grid-template-columns: 1fr;
+          gap: 1.5rem;
+          padding: 1rem;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .container {
+          padding: 0.75rem;
+        }
+
+        .settings-panel,
+        .preview-panel {
+          padding: 1.5rem;
+        }
+
+        .button-group {
+          flex-direction: column;
+        }
+
+        .btn {
+          width: 100%;
+          justify-content: center;
+        }
+      }
+
+      .image-upload-container {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-top: 0.5rem;
+      }
+
+      .upload-btn {
+        background: var(--accent, #667eea);
+        color: white;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 0.875rem;
+        transition: all 0.2s ease;
+      }
+
+      .upload-btn:hover {
+        background: var(--accent-hover, #5a67d8);
+        transform: translateY(-1px);
+      }
+
+      .image-file-name {
+        color: #6b7280;
+        font-size: 0.875rem;
+        font-style: italic;
+      }
+
+      .action-buttons {
+        display: flex;
+        gap: 0.75rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .action-btn {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1rem;
+        border: none;
+        border-radius: 10px;
+        font-size: 0.875rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        font-family: inherit;
+        min-width: 120px;
+        justify-content: center;
+      }
+
+      .refresh-btn {
+        background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+        color: white;
+        box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+      }
+
+      .refresh-btn:hover {
+        background: linear-gradient(135deg, #2563eb, #1e40af);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+      }
+
+      .force-btn {
+        background: linear-gradient(135deg, #f59e0b, #d97706);
+        color: white;
+        box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
+      }
+
+      .force-btn:hover {
+        background: linear-gradient(135deg, #f97316, #ea580c);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+      }
+
+      .btn-icon {
+        font-size: 1rem;
+      }
+
+      .btn-text {
+        font-weight: 600;
+      }
+
+      .action-help {
+        color: #6b7280;
+        font-size: 0.8rem;
+        font-style: italic;
+        margin-top: 0.5rem;
+        display: block;
+      }
+
+      .icon-preview-container {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .icon-preview {
+        width: 60px;
+        height: 60px;
+        border: 2px solid #e5e7eb;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: white;
+        overflow: hidden;
+        transition: all 0.3s ease;
+      }
+
+      .icon-preview:hover {
+        border-color: #667eea;
+        transform: scale(1.05);
+      }
+
+      .icon-preview img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+      }
+
+      .icon-preview span {
+        font-size: 2rem;
+        color: #6b7280;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Settings Panel -->
+      <div class="settings-panel">
+        <h1 class="section-title">Chatbot Settings Designer</h1>
+
+        <div id="status"></div>
+
+        <form id="settingsForm">
+          <!-- Basic Settings -->
+          <div class="sub-section">
+            <h3>Basic Information</h3>
+            <div class="form-group">
+              <label for="title">Title</label>
+              <input
+                type="text"
+                id="title"
+                name="title"
+                placeholder="e.g., Vision Flows Assistant"
+              />
+            </div>
+            <div class="form-group">
+              <label for="subtitle">Subtitle</label>
+              <textarea
+                id="subtitle"
+                name="subtitle"
+                rows="2"
+                placeholder="e.g., Ask me anything about our services and process"
+              ></textarea>
+            </div>
+            <div class="form-group">
+              <label for="footer">Footer Text</label>
+              <input
+                type="text"
+                id="footer"
+                name="footer"
+                placeholder="e.g., © 2024 Vision Flows Agency"
+              />
+            </div>
+          </div>
+
+          <!-- Colors -->
+          <div class="sub-section">
+            <h3>Colors & Theme</h3>
+            <div class="form-group">
+              <label for="accent">Accent Color</label>
+              <div class="color-input">
+                <input type="color" id="accentColor" name="accentColor" />
+                <input
+                  type="text"
+                  id="accent"
+                  name="accent"
+                  placeholder="#667eea"
+                />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="secondaryColor">Secondary Color</label>
+              <div class="color-input">
+                <input
+                  type="color"
+                  id="secondaryColorPicker"
+                  name="secondaryColorPicker"
+                />
+                <input
+                  type="text"
+                  id="secondaryColor"
+                  name="secondaryColor"
+                  placeholder="#764ba2"
+                />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="backgroundColor">Background Color</label>
+              <div class="color-input">
+                <input
+                  type="color"
+                  id="backgroundColorPicker"
+                  name="backgroundColorPicker"
+                />
+                <input
+                  type="text"
+                  id="backgroundColor"
+                  name="backgroundColor"
+                  placeholder="#ffffff"
+                />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="textColor">Text Color</label>
+              <div class="color-input">
+                <input
+                  type="color"
+                  id="textColorPicker"
+                  name="textColorPicker"
+                />
+                <input
+                  type="text"
+                  id="textColor"
+                  name="textColor"
+                  placeholder="#1e293b"
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- Icons -->
+          <div class="sub-section">
+            <h3>Icons & Branding</h3>
+            <div class="form-group">
+              <label for="chatIcon">Chat Icon Preview</label>
+              <div class="icon-preview-container">
+                <div id="iconPreview" class="icon-preview">
+                  <span id="defaultIcon">💬</span>
+                </div>
+                <input type="hidden" id="chatIcon" name="chatIcon" value="" />
+              </div>
+              <small>Preview of your uploaded chat icon</small>
+            </div>
+            <div class="form-group">
+              <label for="chatIconText">Chat Icon Text</label>
+              <input
+                type="text"
+                id="chatIconText"
+                name="chatIconText"
+                placeholder="Chat with us"
+                maxlength="20"
+              />
+              <small>Text that appears on hover (optional)</small>
+            </div>
+            <div class="form-group">
+              <label for="chatIconImage">Custom Chat Icon Image</label>
+              <div class="image-upload-container">
+                <input
+                  type="file"
+                  id="chatIconImage"
+                  name="chatIconImage"
+                  accept="image/*"
+                  style="display: none"
+                />
+                <button
+                  type="button"
+                  class="upload-btn"
+                  onclick="document.getElementById('chatIconImage').click()"
+                >
+                  Choose Image
+                </button>
+                <span id="imageFileName" class="image-file-name"></span>
+              </div>
+              <small
+                >Upload a custom image for your chat icon (max 5MB,
+                JPG/PNG)</small
+              >
+              <div class="form-group" style="margin-top: 1.5rem">
+                <div class="action-buttons">
+                  <button
+                    type="button"
+                    class="action-btn refresh-btn"
+                    onclick="refreshAllChatWidgets(document.getElementById('chatIcon').value)"
+                  >
+                    <span class="btn-icon">🔄</span>
+                    <span class="btn-text">Refresh Icon</span>
+                  </button>
+                  <button
+                    type="button"
+                    class="action-btn force-btn"
+                    onclick="forceRefreshChatIcon()"
+                  >
+                    <span class="btn-icon">⚡</span>
+                    <span class="btn-text">Force Update</span>
+                  </button>
+                </div>
+                <small class="action-help">
+                  Refresh updates open widgets, Force Update triggers immediate
+                  sync
+                </small>
+              </div>
+            </div>
+          </div>
+
+          <!-- Suggested Questions -->
+          <div class="sub-section">
+            <h3>Suggested Questions</h3>
+            <div class="form-group">
+              <label for="question1">Question 1</label>
+              <input
+                type="text"
+                id="question1"
+                name="question1"
+                placeholder="e.g., What services do you offer?"
+              />
+            </div>
+            <div class="form-group">
+              <label for="question2">Question 2</label>
+              <input
+                type="text"
+                id="question2"
+                name="question2"
+                placeholder="e.g., How does your process work?"
+              />
+            </div>
+            <div class="form-group">
+              <label for="question3">Question 3</label>
+              <input
+                type="text"
+                id="question3"
+                name="question3"
+                placeholder="e.g., How much do you charge?"
+              />
+            </div>
+            <div class="form-group">
+              <label for="question4">Question 4</label>
+              <input
+                type="text"
+                id="question4"
+                name="question4"
+                placeholder="e.g., What's your usual timeline?"
+              />
+            </div>
+          </div>
+
+          <!-- Chat Settings -->
+          <div class="sub-section">
+            <h3>Chat Behavior</h3>
+            <div class="form-group">
+              <label for="temperature">Temperature (Creativity)</label>
+              <select id="temperature" name="temperature">
+                <option value="0.1">Very Focused (0.1)</option>
+                <option value="0.3">Focused (0.3)</option>
+                <option value="0.5">Balanced (0.5)</option>
+                <option value="0.7">Creative (0.7)</option>
+                <option value="0.9">Very Creative (0.9)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="maxTokens">Max Response Length</label>
+              <select id="maxTokens" name="maxTokens">
+                <option value="200">Short (200)</option>
+                <option value="400">Medium (400)</option>
+                <option value="600">Long (600)</option>
+                <option value="800">Very Long (800)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="button-group">
+            <button type="submit" class="btn btn-primary">Save Settings</button>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              onclick="loadCurrentSettings()"
+            >
+              Load Current
+            </button>
+            <button
+              type="button"
+              class="btn btn-danger"
+              onclick="resetToDefaults()"
+            >
+              Reset to Default
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Preview Panel -->
+      <div class="preview-panel">
+        <h1 class="section-title">Live Preview</h1>
+        <p class="preview-description">
+          See how your chatbot will look with the current settings:
+        </p>
+
+        <div class="chat-preview" id="chatPreview">
+          <div class="chat-header" id="previewHeader">
+            <h2 id="previewTitle">Vision Flows Assistant</h2>
+            <p id="previewSubtitle">
+              Ask me anything about our services and process
+            </p>
+          </div>
+
+          <div class="suggested-questions">
+            <div class="question-chips" id="previewQuestions">
+              <div class="question-chip">What services do you offer?</div>
+              <div class="question-chip">How much does it cost?</div>
+              <div class="question-chip">What's your timeline?</div>
+              <div class="question-chip">Can you show examples?</div>
+            </div>
+          </div>
+
+          <div class="chat-log" id="previewChatLog">
+            <div class="message user">
+              <div class="message-bubble">
+                Hi! I'd like to learn more about your services.
+              </div>
+            </div>
+            <div class="message assistant">
+              <div class="message-bubble">
+                Hello! I'd be happy to help you learn more about Vision Flows
+                Agency. We offer a range of digital services including:
+              </div>
+            </div>
+            <div class="message assistant">
+              <div class="message-bubble">
+                • Web Design & Development<br />• SEO Optimization<br />• Social
+                Media Management<br />• Content Creation
+              </div>
+            </div>
+          </div>
+
+          <div class="input-form">
+            <div class="input-container">
+              <div class="input-field">
+                <textarea
+                  placeholder="Type your question here..."
+                  rows="1"
+                ></textarea>
+              </div>
+              <button class="send-button">Send</button>
+            </div>
+          </div>
+
+          <div class="footer" id="previewFooter">
+            © 2024 Vision Flows Agency
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const API_BASE = "http://localhost:8000";
+
+      // Load current settings when page loads
+      document.addEventListener("DOMContentLoaded", function () {
+        loadCurrentSettings();
+        setupImageUpload();
+      });
+
+      // Setup image upload functionality
+      function setupImageUpload() {
+        const imageInput = document.getElementById("chatIconImage");
+        const fileNameSpan = document.getElementById("imageFileName");
+
+        imageInput.addEventListener("change", async function (e) {
+          const file = e.target.files[0];
+          if (!file) return;
+
+          // Validate file type
+          if (!file.type.startsWith("image/")) {
+            showStatus(
+              "Please select a valid image file (JPG, PNG, etc.)",
+              "error"
+            );
+            fileNameSpan.textContent = "";
+            return;
+          }
+
+          // Validate file size (5MB)
+          if (file.size > 5 * 1024 * 1024) {
+            showStatus(
+              "Image file is too large. Please select a file under 5MB.",
+              "error"
+            );
+            fileNameSpan.textContent = "";
+            return;
+          }
+
+          // Show selected filename and upload status
+          fileNameSpan.textContent = file.name;
+          showStatus("Uploading image...", "info");
+
+          // Upload image
+          try {
+            const formData = new FormData();
+            formData.append("file", file);
+
+            const response = await fetch(`${API_BASE}/upload/image`, {
+              method: "POST",
+              body: formData,
+            });
+
+            if (response.ok) {
+              const result = await response.json();
+
+              // Update the chat icon URL with the uploaded image
+              document.getElementById("chatIcon").value = result.url;
+
+              // Update the icon preview to show the uploaded image
+              updateIconPreview(result.url);
+
+              showStatus(
+                "✅ Image uploaded successfully! Chat icon updated.",
+                "success"
+              );
+
+              // Update preview
+              updatePreview();
+
+              // Immediately apply the new icon to any open chat widgets
+              applyChatIconToWidgets(result.url);
+
+              // Also refresh any open chat.html pages
+              refreshAllChatWidgets(result.url);
+
+              // Store the icon URL in localStorage for immediate access by other pages
+              localStorage.setItem("chatIconUrl", result.url);
+              localStorage.setItem("chatIconUpdated", Date.now().toString());
+
+              console.log("Icon URL stored in localStorage:", result.url);
+
+              // Force immediate update of any open chat widgets
+              setTimeout(() => {
+                forceRefreshChatIcon();
+              }, 100);
+            } else {
+              throw new Error("Upload failed");
+            }
+          } catch (error) {
+            console.error("Error uploading image:", error);
+            showStatus("❌ Error uploading image. Please try again.", "error");
+            fileNameSpan.textContent = "";
+          }
+        });
+      }
+
+      // Update the icon preview to show the uploaded image
+      function updateIconPreview(iconUrl) {
+        const iconPreview = document.getElementById("iconPreview");
+        const defaultIcon = document.getElementById("defaultIcon");
+
+        if (
+          iconUrl &&
+          (iconUrl.startsWith("http") || iconUrl.startsWith("/"))
+        ) {
+          // It's an image URL - show the image
+          iconPreview.innerHTML = `<img src="${iconUrl}" alt="Chat Icon Preview">`;
+          console.log("Icon preview updated with image:", iconUrl);
+        } else if (iconUrl) {
+          // It's emoji or text - show the text
+          defaultIcon.textContent = iconUrl;
+          console.log("Icon preview updated with text:", iconUrl);
+        } else {
+          // No icon - show default
+          iconPreview.innerHTML = '<span id="defaultIcon">💬</span>';
+          console.log("Icon preview reset to default");
+        }
+      }
+
+      // Apply chat icon to any open chat widgets
+      function applyChatIconToWidgets(iconUrl) {
+        // Find any open chat widgets and update their icon
+        const chatWidgets = document.querySelectorAll(
+          ".chat-widget, #chatWidget"
+        );
+        chatWidgets.forEach((widget) => {
+          const toggleIcon = widget.querySelector("#chatToggleIcon");
+          if (toggleIcon) {
+            if (iconUrl.startsWith("http") || iconUrl.startsWith("/")) {
+              // It's an image URL
+              toggleIcon.innerHTML = `<img src="${iconUrl}" alt="Chat Icon" style="width: 24px; height: 24px; object-fit: contain;">`;
+            } else {
+              // It's emoji or text
+              toggleIcon.textContent = iconUrl;
+            }
+          }
+        });
+
+        // Also update the preview
+        const previewToggleIcon = document.querySelector(
+          "#previewChatToggle #chatToggleIcon"
+        );
+        if (previewToggleIcon) {
+          previewToggleIcon.innerHTML = `<img src="${iconUrl}" alt="Chat Icon" style="width: 24px; height: 24px; object-fit: contain;">`;
+        }
+      }
+
+      // Refresh all open chat widgets (including chat.html pages)
+      function refreshAllChatWidgets(iconUrl) {
+        console.log("Refreshing all chat widgets with icon:", iconUrl);
+
+        // Try to refresh any open chat.html pages by calling their refresh function
+        try {
+          // This will work if chat.html is in the same window context
+          if (typeof refreshChatIcon === "function") {
+            refreshChatIcon();
+          }
+
+          // Also try to send a message to any open chat widgets
+          window.postMessage(
+            {
+              type: "REFRESH_CHAT_ICON",
+              iconUrl: iconUrl,
+            },
+            "*"
+          );
+
+          // Try to call the global function on any open chat.html pages
+          try {
+            // Check if we can access other windows/tabs
+            if (
+              window.opener &&
+              typeof window.opener.updateChatIcon === "function"
+            ) {
+              window.opener.updateChatIcon(iconUrl);
+            }
+
+            // Try to find any chat.html iframes or windows
+            const chatFrames = document.querySelectorAll(
+              'iframe[src*="chat.html"]'
+            );
+            chatFrames.forEach((frame) => {
+              try {
+                if (
+                  frame.contentWindow &&
+                  typeof frame.contentWindow.updateChatIcon === "function"
+                ) {
+                  frame.contentWindow.updateChatIcon(iconUrl);
+                }
+              } catch (e) {
+                console.log("Could not access iframe:", e);
+              }
+            });
+          } catch (e) {
+            console.log("Could not access other windows:", e);
+          }
+        } catch (error) {
+          console.log("Could not refresh external chat widgets:", error);
+        }
+      }
+
+      // Force refresh chat icon by updating localStorage and triggering events
+      function forceRefreshChatIcon() {
+        const iconUrl = document.getElementById("chatIcon").value;
+        if (iconUrl) {
+          console.log("Force refreshing chat icon:", iconUrl);
+
+          // Update localStorage to trigger change events
+          localStorage.setItem("chatIconUrl", iconUrl);
+          localStorage.setItem("chatIconUpdated", Date.now().toString());
+
+          // Try to call the global function on any open chat.html pages
+          try {
+            // Check if we can access other windows/tabs
+            if (
+              window.opener &&
+              typeof window.opener.updateChatIcon === "function"
+            ) {
+              window.opener.updateChatIcon(iconUrl);
+              console.log("Updated chat icon in opener window");
+            }
+
+            // Try to find any chat.html iframes or windows
+            const chatFrames = document.querySelectorAll(
+              'iframe[src*="chat.html"]'
+            );
+            chatFrames.forEach((frame) => {
+              try {
+                if (
+                  frame.contentWindow &&
+                  typeof frame.contentWindow.updateChatIcon === "function"
+                ) {
+                  frame.contentWindow.updateChatIcon(iconUrl);
+                  console.log("Updated chat icon in iframe");
+                }
+              } catch (e) {
+                console.log("Could not access iframe:", e);
+              }
+            });
+          } catch (e) {
+            console.log("Could not access other windows:", e);
+          }
+
+          showStatus(
+            "Chat icon force updated! Check your chat widget.",
+            "success"
+          );
+        } else {
+          showStatus(
+            "No icon URL to update. Please upload an image first.",
+            "error"
+          );
+        }
+      }
+
+      // Sync color pickers with text inputs
+      document.querySelectorAll('input[type="color"]').forEach((picker) => {
+        picker.addEventListener("change", function () {
+          const textInput = this.parentNode.querySelector('input[type="text"]');
+          textInput.value = this.value;
+          updatePreview();
+        });
+      });
+
+      // Sync text inputs with color pickers
+      document.querySelectorAll('input[type="text"]').forEach((input) => {
+        if (input.name.includes("Color")) {
+          input.addEventListener("input", function () {
+            const colorPicker = this.parentNode.querySelector(
+              'input[type="color"]'
+            );
+            if (this.value.match(/^#[0-9A-Fa-f]{6}$/)) {
+              colorPicker.value = this.value;
+              updatePreview();
+            }
+          });
+        }
+      });
+
+      // Update preview when any setting changes
+      document.querySelectorAll("input, textarea, select").forEach((input) => {
+        input.addEventListener("input", updatePreview);
+        input.addEventListener("change", updatePreview);
+      });
+
+      // Load current settings from server
+      async function loadCurrentSettings() {
+        try {
+          const response = await fetch(`${API_BASE}/settings`);
+          const data = await response.json();
+          const settings = data.settings || data;
+
+          // Populate form fields
+          document.getElementById("title").value = settings.title || "";
+          document.getElementById("subtitle").value = settings.subtitle || "";
+          document.getElementById("footer").value = settings.footer || "";
+          document.getElementById("accent").value =
+            settings.accent || "#667eea";
+          document.getElementById("accentColor").value =
+            settings.accent || "#667eea";
+
+          // Load theme colors (check both flat and nested formats for backward compatibility)
+
+          if (settings.secondaryColor) {
+            document.getElementById("secondaryColor").value =
+              settings.secondaryColor;
+            document.getElementById("secondaryColorPicker").value =
+              settings.secondaryColor;
+          } else if (settings.theme && settings.theme.secondary_color) {
+            document.getElementById("secondaryColor").value =
+              settings.theme.secondary_color;
+            document.getElementById("secondaryColorPicker").value =
+              settings.theme.secondary_color;
+          }
+
+          if (settings.backgroundColor) {
+            document.getElementById("backgroundColor").value =
+              settings.backgroundColor;
+            document.getElementById("backgroundColorPicker").value =
+              settings.backgroundColor;
+          } else if (settings.theme && settings.theme.background_color) {
+            document.getElementById("backgroundColor").value =
+              settings.theme.background_color;
+            document.getElementById("backgroundColorPicker").value =
+              settings.theme.background_color;
+          }
+
+          if (settings.textColor) {
+            document.getElementById("textColor").value = settings.textColor;
+            document.getElementById("textColorPicker").value =
+              settings.textColor;
+          } else if (settings.theme && settings.theme.text_color) {
+            document.getElementById("textColor").value =
+              settings.theme.text_color;
+            document.getElementById("textColorPicker").value =
+              settings.theme.text_color;
+          }
+
+          // Load icon settings
+          document.getElementById("chatIcon").value = settings.chat_icon || "";
+          document.getElementById("chatIconText").value =
+            settings.chat_icon_text || "Chat with us";
+
+          // Update the icon preview - check both settings and localStorage
+          const iconToShow =
+            settings.chat_icon || localStorage.getItem("chatIconUrl") || "";
+          updateIconPreview(iconToShow);
+
+          console.log("Loading icon settings:", {
+            settings_chat_icon: settings.chat_icon,
+            localStorage_chatIconUrl: localStorage.getItem("chatIconUrl"),
+            iconToShow: iconToShow,
+          });
+
+          if (settings.suggested && settings.suggested.length >= 4) {
+            document.getElementById("question1").value =
+              settings.suggested[0] || "";
+            document.getElementById("question2").value =
+              settings.suggested[1] || "";
+            document.getElementById("question3").value =
+              settings.suggested[2] || "";
+            document.getElementById("question4").value =
+              settings.suggested[3] || "";
+          }
+
+          if (settings.chat_settings) {
+            document.getElementById("temperature").value =
+              settings.chat_settings.temperature || 0.7;
+            document.getElementById("maxTokens").value =
+              settings.chat_settings.max_tokens || 500;
+          }
+
+          updatePreview();
+          showStatus("Settings loaded successfully!", "success");
+        } catch (error) {
+          console.error("Error loading settings:", error);
+          showStatus("Error loading settings: " + error.message, "error");
+        }
+      }
+
+      // Save settings to server
+      document
+        .getElementById("settingsForm")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
+
+          const formData = new FormData(this);
+          const settings = {
+            title: formData.get("title"),
+            subtitle: formData.get("subtitle"),
+            footer: formData.get("footer"),
+            accent: formData.get("accent"),
+            chat_icon: formData.get("chatIcon"),
+            chat_icon_text: formData.get("chatIconText"),
+            suggested: [
+              formData.get("question1"),
+              formData.get("question2"),
+              formData.get("question3"),
+              formData.get("question4"),
+            ].filter((q) => q.trim()),
+
+            secondaryColor: formData.get("secondaryColor"),
+            backgroundColor: formData.get("backgroundColor"),
+            textColor: formData.get("textColor"),
+            chat_settings: {
+              temperature: parseFloat(formData.get("temperature")),
+              max_tokens: parseInt(formData.get("maxTokens")),
+              max_context_length: 3000,
+              enable_streaming: false,
+            },
+          };
+
+          try {
+            const response = await fetch(`${API_BASE}/settings`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(settings),
+            });
+
+            if (response.ok) {
+              showStatus("Settings saved successfully!", "success");
+            } else {
+              throw new Error(`HTTP ${response.status}`);
+            }
+          } catch (error) {
+            console.error("Error saving settings:", error);
+            showStatus("Error saving settings: " + error.message, "error");
+          }
+        });
+
+      // Reset to default settings
+      async function resetToDefaults() {
+        try {
+          const response = await fetch(`${API_BASE}/settings/reset`, {
+            method: "POST",
+          });
+
+          if (response.ok) {
+            showStatus("Settings reset to defaults!", "success");
+            loadCurrentSettings();
+          } else {
+            throw new Error(`HTTP ${response.status}`);
+          }
+        } catch (error) {
+          console.error("Error resetting settings:", error);
+          showStatus("Error resetting settings: " + error.message, "error");
+        }
+      }
+
+      // Update the preview - FIXED VERSION
+      function updatePreview() {
+        const title =
+          document.getElementById("title").value || "Vision Flows Assistant";
+        const subtitle =
+          document.getElementById("subtitle").value ||
+          "Ask me anything about our services and process";
+        const footer =
+          document.getElementById("footer").value ||
+          "© 2024 Vision Flows Agency";
+        const accent = document.getElementById("accent").value || "#667eea";
+
+        const backgroundColor =
+          document.getElementById("backgroundColor").value || "#ffffff";
+        const textColor =
+          document.getElementById("textColor").value || "#1e293b";
+        const secondaryColor =
+          document.getElementById("secondaryColor").value || "#764ba2";
+
+        // Update preview elements
+        document.getElementById("previewTitle").textContent = title;
+        document.getElementById("previewSubtitle").textContent = subtitle;
+        document.getElementById("previewFooter").textContent = footer;
+
+        // Update colors with proper CSS variable setting
+        document.getElementById("previewHeader").style.background = accent;
+        document.getElementById("previewHeader").style.color = "white";
+        document.querySelector(".send-button").style.background = accent;
+        document.querySelector(".chat-preview").style.background =
+          backgroundColor;
+
+        // Update message bubble colors
+        const userBubbles = document.querySelectorAll(
+          ".message.user .message-bubble"
+        );
+        userBubbles.forEach((bubble) => {
+          bubble.style.background = accent;
+        });
+
+        const assistantBubbles = document.querySelectorAll(
+          ".message.assistant .message-bubble"
+        );
+        assistantBubbles.forEach((bubble) => {
+          bubble.style.background = secondaryColor;
+          bubble.style.color = textColor;
+        });
+
+        // Update question chips with secondary color
+        const questionChips = document.querySelectorAll(".question-chip");
+        questionChips.forEach((chip) => {
+          chip.style.borderColor = secondaryColor;
+          chip.style.color = textColor;
+          chip.style.background = "transparent";
+        });
+
+        // Update suggested questions section background
+        const suggestedQuestionsSection = document.querySelector(
+          ".suggested-questions"
+        );
+        if (suggestedQuestionsSection) {
+          suggestedQuestionsSection.style.background = "transparent";
+          suggestedQuestionsSection.style.borderColor = "transparent";
+        }
+
+        // Update chat log background
+        const chatLog = document.querySelector(".chat-log");
+        if (chatLog) {
+          chatLog.style.background = backgroundColor;
+        }
+
+        // Update input form background
+        const inputForm = document.querySelector(".input-form");
+        if (inputForm) {
+          inputForm.style.background = backgroundColor;
+        }
+
+        // Update footer background
+        const footerElement = document.querySelector(".footer");
+        if (footerElement) {
+          footerElement.style.background = secondaryColor;
+          footerElement.style.color = textColor;
+        }
+
+        // Update suggested questions
+        const questions = [
+          document.getElementById("question1").value,
+          document.getElementById("question2").value,
+          document.getElementById("question3").value,
+          document.getElementById("question4").value,
+        ].filter((q) => q.trim());
+
+        const previewQuestions = document.getElementById("previewQuestions");
+        previewQuestions.innerHTML = questions
+          .map((q) => `<div class="question-chip">${q}</div>`)
+          .join("");
+
+        // Update CSS variables for accent color
+        document.documentElement.style.setProperty("--accent", accent);
+
+        // Update theme colors throughout the preview
+        const preview = document.getElementById("chatPreview");
+        preview.style.setProperty("--secondary-color", secondaryColor);
+        preview.style.setProperty("--text-color", textColor);
+      }
+
+      // Show status messages
+      function showStatus(message, type) {
+        const statusDiv = document.getElementById("status");
+        statusDiv.className = `status ${type}`;
+        statusDiv.textContent = message;
+
+        setTimeout(() => {
+          statusDiv.textContent = "";
+          statusDiv.className = "";
+        }, 3000);
+      }
+    </script>
+  </body>
+</html>
