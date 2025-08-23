@@ -55,15 +55,9 @@ This project creates a custom RAG (Retrieval-Augmented Generation) chatbot The c
 cd server
 uvicorn app.main:app --reload --port 8000
 ```
-
-### 2. **Add to Framer**
-- **Option A**: Copy code from `widget/chat.html` into Framer Custom Code
-- **Option B**: Use Framer Embed element with URL: `http://localhost:8000/widget/chat.html`
-
-### 3. **Customize Your Chatbot**
+### 2. **Customize Your Chatbot**
 - Open: `http://localhost:8000/widget/settings-tester.html`
 - Change colors, title, icon, questions
-- See live updates in your Framer page!
 
 ## 🎨 UI Features & Customization
 
