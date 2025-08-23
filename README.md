@@ -4,8 +4,6 @@
 
 This project creates a custom RAG (Retrieval-Augmented Generation) chatbot that can replace Chatbase on your Framer website. The chatbot is fully customizable, allowing you to update the interface, documents, suggested questions, branding, and more through a simple API. 
 
-**Current Status**: ✅ **FULLY IMPLEMENTED AND READY FOR PRODUCTION**
-
 ## ✨ What's Been Built
 
 ### 🎨 **Complete UI System**
@@ -41,10 +39,10 @@ This project creates a custom RAG (Retrieval-Augmented Generation) chatbot that 
 
 ```
 ┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
-│   Framer Site  │    │   Widget Files   │    │  FastAPI Server │
+│   Framer Site   │    │   Widget Files   │    │  FastAPI Server │
 │                 │    │                  │    │                 │
-│  Custom Code   │───▶│   chat.html      │───▶│  /chat endpoint │
-│  or Embed      │    │   test.html      │    │  /settings      │
+│  Custom Code    │───▶│   chat.html      │───▶│  /chat endpoint │
+│  or Embed       │    │   test.html      │    │  /settings      │
 │                 │    │   settings-tester│    │  /ingest        │
 └─────────────────┘    └──────────────────┘    └─────────────────┘
                                 │                       │
@@ -153,36 +151,6 @@ uvicorn app.main:app --reload --port 8000
 - **Models**: Llama 3, Mistral, CodeLlama
 - **Performance**: Good quality with proper prompting
 
-## 📁 Project Structure
-
-```
-rag-agent/
-├── README.md                    # Main project documentation
-├── CONCEPTS.md                  # RAG concepts and theory
-├── PROJECT_STRUCTURE.md         # Detailed project structure
-├── quick-start.sh               # Automated setup script
-├── server/                      # Backend API server
-│   ├── app/
-│   │   ├── main.py             # FastAPI application and endpoints
-│   │   ├── rag.py              # RAG pipeline implementation
-│   │   ├── ingest.py           # Document processing and ingestion
-│   │   ├── settings_store.py   # Configuration management
-│   │   └── __init__.py
-│   ├── data/                   # Documents to be ingested
-│   ├── chroma_db/              # Vector database (auto-created)
-│   ├── uploads/                # Uploaded images and files
-│   ├── widget/                 # Frontend files served by FastAPI
-│   │   ├── chat.html           # Main chat interface
-│   │   ├── test.html           # Testing page
-│   │   └── settings-tester.html# Settings configuration page
-│   ├── requirements.txt         # Python dependencies
-│   └── README.md               # Server setup guide
-└── widget/                      # Frontend files (alternative location)
-    ├── chat.html               # Chat interface
-    ├── test.html               # Testing page
-    └── embed.js                # Embed script
-```
-
 ## 🔧 Setup Instructions
 
 ### 1. **Backend Setup**
@@ -231,19 +199,6 @@ curl -X POST http://localhost:8000/settings \
   }'
 ```
 
-### 4. **Framer Integration**
-
-#### **Option A: Custom Code (Recommended)**
-1. In Framer: Add "Custom Code" element
-2. Copy ALL code from `widget/chat.html`
-3. Paste into the Custom Code element
-4. Set size: 500x700px
-
-#### **Option B: Embed Element**
-1. In Framer: Add "Embed" element
-2. Set URL: `http://localhost:8000/widget/chat.html`
-3. Set size: 500x700px
-
 ## 🔍 Key Concepts Explained
 
 ### **RAG (Retrieval-Augmented Generation)**
@@ -264,28 +219,6 @@ curl -X POST http://localhost:8000/settings \
 - **Chunking Strategy**: Balance between context completeness and retrieval precision
 - **Overlap**: Maintains context continuity between chunks
 - **Token Limits**: Respects LLM context window constraints
-
-## 🚀 Deployment Options
-
-### **Option 1: Simple Hosting (Recommended for MVP)**
-- **Backend**: Render, Railway, or Fly.io
-- **Widget**: Same server (FastAPI static files)
-- **Cost**: $5-20/month
-- **Setup Time**: 30 minutes
-
-### **Option 2: Scalable Architecture**
-- **Backend**: AWS/GCP with load balancer
-- **Vector DB**: Qdrant Cloud or Pinecone
-- **Widget**: CDN (Cloudflare, Vercel)
-- **Cost**: $50-200/month
-- **Setup Time**: 2-4 hours
-
-### **Option 3: Serverless**
-- **Backend**: AWS Lambda + API Gateway
-- **Vector DB**: Pinecone or Weaviate Cloud
-- **Widget**: Vercel or Netlify
-- **Cost**: Pay-per-use
-- **Setup Time**: 1-2 hours
 
 ## 🔒 Security Considerations
 
@@ -419,22 +352,9 @@ curl http://localhost:8000/settings
 curl http://localhost:8000/collection/info
 ```
 
-## 📚 Additional Resources
-
-### **Documentation**
-- [FastAPI Documentation](https://fastapi.tiangolo.com/)
-- [Chroma DB Guide](https://docs.trychroma.com/)
-- [BGE Embeddings](https://huggingface.co/BAAI/bge-small-en-v1.5)
-- [LangChain RAG](https://python.langchain.com/docs/use_cases/question_answering/)
-
-### **Community**
-- [FastAPI Discord](https://discord.gg/VQjKp3pW6U)
-- [LangChain Community](https://discord.gg/langchain)
-- [Vector Database Discussions](https://github.com/chroma-core/chroma/discussions)
-
 ---
 
-## 🎉 Getting Started
+## Getting Started
 
 **Your RAG chatbot is ready to use!** 
 
@@ -443,17 +363,3 @@ curl http://localhost:8000/collection/info
 2. ✅ **Documents Ingested**: Place files in `server/data/` and run ingestion
 3. ✅ **Framer Integration**: Copy code from `widget/chat.html` or use embed element
 4. ✅ **Customization**: Use settings tester to configure your chatbot
-5. ✅ **Testing**: Test on your Framer page
-
-**Estimated Setup Time**: 5-10 minutes
-**Difficulty Level**: Beginner-friendly
-**Prerequisites**: Basic Python knowledge
-
-### **What You Get:**
-- 🎨 **Professional chat interface** that matches your brand
-- 🧠 **Intelligent responses** based on your documents
-- ⚡ **Real-time updates** when you change settings
-- 📱 **Mobile-responsive** design that works everywhere
-- 🚀 **Production-ready** code that scales with your needs
-
-**Happy building! 🚀**
