@@ -4,8 +4,6 @@
 
 This project creates a custom RAG (Retrieval-Augmented Generation) chatbot that can replace Chatbase on your Framer website. The chatbot is fully customizable, allowing you to update the interface, documents, suggested questions, branding, and more through a simple API. 
 
-## ✨ What's Been Built
-
 ### 🎨 **Complete UI System**
 - **Modern, sleek chat interface** with glassmorphism design
 - **Responsive design** that works on all devices
