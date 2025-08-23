@@ -1,4 +1,4 @@
-# RAG Agent for Framer Website - Complete Implementation Guide
+# RAG Agent Chatbot
 
 ## 🎯 Project Overview
 
