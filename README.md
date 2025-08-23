@@ -21,17 +21,10 @@ This project creates a custom RAG (Retrieval-Augmented Generation) chatbot The c
 
 ### 🎛️ **Dynamic Configuration System**
 - **Live settings updates** without server restarts
-- **Real-time UI changes** in Framer
 - **Comprehensive theming** (colors, fonts, spacing)
 - **Custom branding** (title, subtitle, logo, icon)
 - **Suggested questions** management
 - **Chat parameters** (temperature, max tokens, context length)
-
-### 🚀 **Multiple Integration Options**
-- **Direct HTML embed** for Framer Custom Code
-- **Iframe embed** for Framer Embed element
-- **Script-based embed** (like Chatbase)
-- **Local testing** with comprehensive test pages
 
 ## 🏗️ Architecture Overview
 
