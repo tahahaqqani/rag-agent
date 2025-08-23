@@ -37,7 +37,7 @@ This project creates a custom RAG (Retrieval-Augmented Generation) chatbot The c
 
 ```
 ┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
-│   Framer Site   │    │   Widget Files   │    │  FastAPI Server │
+│   Website       │    │   Widget Files   │    │  FastAPI Server │
 │                 │    │                  │    │                 │
 │  Custom Code    │───▶│   chat.html      │───▶│  /chat endpoint │
 │  or Embed       │    │   test.html      │    │  /settings      │
