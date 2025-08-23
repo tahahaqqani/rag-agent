@@ -349,15 +349,3 @@ curl http://localhost:8000/settings
 # Check collection info
 curl http://localhost:8000/collection/info
 ```
-
----
-
-## Getting Started
-
-**Your RAG chatbot is ready to use!** 
-
-### **Quick Start Checklist:**
-1. ✅ **Server Running**: `uvicorn app.main:app --reload --port 8000`
-2. ✅ **Documents Ingested**: Place files in `server/data/` and run ingestion
-3. ✅ **Framer Integration**: Copy code from `widget/chat.html` or use embed element
-4. ✅ **Customization**: Use settings tester to configure your chatbot
