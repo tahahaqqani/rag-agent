@@ -210,7 +210,6 @@ curl -X POST http://localhost:8000/settings \
 ### **CORS Configuration**
 ```python
 ALLOWED_ORIGINS = [
-    "https://your-framer-site.framer.website",
     "https://yourdomain.com"
 ]
 ```
