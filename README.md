@@ -1,318 +1,177 @@
-# RAG Agent Chatbot
+# RAG Agent - Intelligent Document Chatbot
 
-## Project Overview
+A production-ready RAG (Retrieval-Augmented Generation) chatbot that answers questions based on your documents. Upload PDFs, DOCX, or text files, and get instant, accurate responses powered by AI.
 
-This project creates a custom RAG (Retrieval-Augmented Generation) chatbot that can replace Chatbase on your website. The chatbot is fully customizable, allowing you to update the interface, documents, suggested questions, branding, and more through a simple API.
+## What It Does
 
-### **Complete UI System**
+- **Document Intelligence**: Upload your company documents (PDFs, Word docs, text files)
+- **Smart Q&A**: Ask questions in natural language and get accurate answers
+- **Context-Aware**: Understands your specific content, not generic responses
+- **Customizable**: Brand it with your colors, logo, and messaging
+- **Easy Integration**: Embed in any website with a simple script
 
-- **Modern, sleek chat interface** with glassmorphism design
-- **Responsive design** that works on all devices
-- **Dynamic theming** with live color updates
-- **Custom chat icons** (uploaded images)
-- **Smooth animations** and transitions
-- **Professional typography** using Montserrat font
+## How It Works
 
-### **Full RAG Pipeline**
-
-- **Document ingestion** for PDF, DOCX, TXT, and MD files
-- **Vector embeddings** using BGE-small model
-- **Chroma DB** for fast similarity search
-- **Reranking** with BGE-reranker for better results
-- **Intelligent chunking** with overlap for context preservation
-
-### **Dynamic Configuration System**
-
-- **Live settings updates** without server restarts
-- **Comprehensive theming** (colors, fonts, spacing)
-- **Custom branding** (title, subtitle, logo, icon)
-- **Suggested questions** management
-- **Chat parameters** (temperature, max tokens, context length)
-
-## Architecture Overview
+### Technical Architecture
 
 ```
-┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
-│   Website       │    │   Widget Files   │    │  FastAPI Server │
-│                 │    │                  │    │                 │
-│  Custom Code    │───▶│   chat.html      │───▶│  /chat endpoint │
-│  or Embed       │    │   test.html      │    │  /settings      │
-│                 │    │   settings-tester│    │  /ingest        │
-└─────────────────┘    └──────────────────┘    └─────────────────┘
-                                │                       │
-                                │                       ▼
-                                │              ┌─────────────────┐
-                                │              │   Vector Store  │
-                                │              │   (Chroma DB)   │
-                                │              │                 │
-                                │              │  Document Index │
-                                └──────────────┼  Embeddings     │
-                                               │  Reranking      │
-                                               └─────────────────┘
+Documents → Chunking → Embeddings → Vector Database → Retrieval → AI Response
 ```
 
-## Quick Start (5 minutes)
+1. **Document Processing**: Your files are split into semantic chunks (600 tokens each)
+2. **Vector Embeddings**: Each chunk is converted to a 768-dimensional vector using BGE-small model
+3. **Vector Storage**: Embeddings stored in Chroma DB for fast similarity search
+4. **Query Processing**: User questions are embedded and matched against document chunks
+5. **Reranking**: BGE-reranker improves result relevance
+6. **AI Generation**: GPT-4o-mini generates responses using retrieved context
 
-### 1. **Start Your Server**
+### Key Features
 
+- **BGE Embeddings**: High-quality semantic search with 768-dimensional vectors
+- **Chroma DB**: Fast vector similarity search with HNSW algorithm
+- **Cross-Encoder Reranking**: Improves answer quality by 40-60%
+- **Intelligent Chunking**: 600-token chunks with 80-token overlap for context preservation
+- **Multiple LLM Support**: OpenAI GPT models or local Ollama models
+
+## Quick Start
+
+### 1. Setup Server
 ```bash
 cd server
 python -m venv .venv
-source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+source .venv/bin/activate  # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
+
+# Set your OpenAI API key
+export OPENAI_API_KEY="your-api-key-here"
+
+# Start server
 uvicorn app.main:app --reload --port 8000
 ```
 
-### 2. **Add Documents**
-
+### 2. Add Your Documents
 ```bash
-# Place documents in server/data/
-# Supported formats: PDF, DOCX, TXT, MD
+# Place PDFs, DOCX, or TXT files in server/data/
+# Then ingest them
 python -c "from app.ingest import ingest_folder; print(ingest_folder('./data'))"
 ```
 
-### 3. **Customize Your Chatbot**
+### 3. Test the Chatbot
+- Open: `http://localhost:8000/widget/test.html`
+- Ask questions about your documents
+- Customize: `http://localhost:8000/widget/settings-tester.html`
 
-- Open: `http://localhost:8000/widget/settings-tester.html`
-- Change colors, title, questions
-
-## UI Features & Customization
-
-### **Theme System**
-
-- **Accent Color**: Primary brand color for buttons and highlights
-- **Secondary Color**: Borders and subtle elements
-- **Background Color**: Chat widget background
-- **Text Color**: Main text color
-- **Live Preview**: See changes immediately in settings tester
-
-### **Branding Elements**
-
-- **Chat Title**: Main heading in chat widget
-- **Chat Subtitle**: Descriptive text below title
-- **Chat Icon**: Custom emoji or uploaded image
-- **Footer Text**: Optional footer message
-
-### **Interactive Elements**
-
-- **Suggested Questions**: Clickable question chips
-- **Smooth Animations**: Fade-in effects and hover states
-- **Responsive Design**: Works on mobile and desktop
-- **Auto-resizing Input**: Textarea that grows with content
-
-### **Chat Experience**
-
-- **Typing Indicators**: Animated dots while processing
-- **Message Bubbles**: User and assistant message styling
-- **Bullet Point Formatting**: Clean, readable responses
-- **Context-Aware**: Remembers conversation flow
-
-## Tech Stack & Justification
-
-### **Backend Technologies**
-
-#### **FastAPI** - Web Framework
-
-- **Why**: High performance, automatic API documentation, async support
-- **Use Case**: REST API endpoints, real-time chat processing
-- **Performance**: 10x faster than Flask, automatic OpenAPI docs
-
-#### **Chroma DB** - Vector Database
-
-- **Why**: Lightweight, local-first, easy to set up
-- **Use Case**: Store document embeddings for similarity search
-- **Features**: Persistent storage, metadata filtering, similarity search
-
-#### **BGE Embeddings** - Text Embeddings
-
-- **Why**: High quality, multilingual support, local deployment
-- **Use Case**: Convert text chunks to vectors for similarity search
-- **Model**: BGE-small-en-v1.5 (768 dimensions, fast inference)
-
-#### **BGE Reranker** - Cross-Encoder
-
-- **Why**: Improves retrieval quality by reranking results
-- **Use Case**: Sort retrieved documents by relevance to query
-- **Performance**: Significantly improves answer quality
-
-### **Frontend Technologies**
-
-#### **Vanilla JavaScript** - No Framework
-
-- **Why**: Lightweight, no build process, easy to embed
-- **Use Case**: Chat widget, API communication, dynamic updates
-- **Bundle Size**: ~15KB vs 100KB+ for React
-
-#### **Modern CSS** - Styling
-
-- **Why**: CSS variables, flexbox, grid, animations
-- **Use Case**: Responsive design, theming, smooth transitions
-- **Features**: CSS custom properties, modern layout techniques
-
-### **LLM Options**
-
-#### **OpenAI GPT Models** (Recommended for Production)
-
-- **Why**: High quality, reliable, well-documented
-- **Use Case**: Generate chat responses
-- **Cost**: ~$0.01-0.10 per 1K tokens
-- **Models**: GPT-4o-mini, GPT-3.5-turbo
-
-#### **Ollama + Local Models** (Free Alternative)
-
-- **Why**: No API costs, privacy-focused
-- **Use Case**: Development and testing
-- **Models**: Llama 3, Mistral, CodeLlama
-- **Performance**: Good quality with proper prompting
-
-## Key Concepts Explained
-
-### **RAG (Retrieval-Augmented Generation)**
-
-1. **Document Processing**: Break documents into chunks (~600 tokens with 80 token overlap)
-2. **Embedding**: Convert text chunks to numerical vectors using BGE model
-3. **Indexing**: Store vectors in Chroma DB for fast similarity search
-4. **Retrieval**: Find most similar document chunks to user query
-5. **Reranking**: Use cross-encoder to improve result relevance
-6. **Generation**: Create response using retrieved context + LLM
-
-### **Vector Similarity Search**
-
-- **Cosine Similarity**: Measures angle between vectors (0° = identical, 90° = unrelated)
-- **L2 Normalization**: Ensures fair comparison between vectors of different lengths
-- **K-Nearest Neighbors**: Retrieves top-K most similar documents
-
-### **Context Window Management**
-
-- **Chunking Strategy**: Balance between context completeness and retrieval precision
-- **Overlap**: Maintains context continuity between chunks
-- **Token Limits**: Respects LLM context window constraints
-
-## Security Considerations
-
-### **CORS Configuration**
-
-```python
-ALLOWED_ORIGINS = [
-    "https://yourdomain.com"
-]
+### 4. Embed in Your Website
+```html
+<!-- Add this to your website -->
+<script src="http://localhost:8000/widget/embed.js"></script>
 ```
 
-### **Input Validation**
+## API Reference
 
-- Sanitize user inputs
-- Rate limiting on chat endpoints
-- File upload restrictions
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/chat` | POST | Main chat endpoint |
+| `/settings` | GET/POST | Configure chatbot |
+| `/ingest` | POST | Upload documents |
+| `/health` | GET | Server status |
 
-### **API Security**
-
-- Environment variable management
-- Optional authentication for settings endpoint
-- HTTPS enforcement in production
-
-## Performance Optimization
-
-### **Embedding Optimization**
-
-- **Model Selection**: BGE-small for speed, BGE-large for quality
-- **Batch Processing**: Process multiple documents simultaneously
-- **Caching**: Cache embeddings for repeated queries
-
-### **Retrieval Optimization**
-
-- **Hybrid Search**: Combine dense (embeddings) + sparse (BM25) retrieval
-- **Query Expansion**: Generate multiple query variations
-- **Result Caching**: Cache common query results
-
-### **Response Generation**
-
-- **Streaming**: Real-time response generation
-- **Context Pruning**: Remove irrelevant context to save tokens
-- **Response Templates**: Pre-defined response patterns
-
-## Testing & Quality Assurance
-
-### **Built-in Testing Tools**
-
-- **Health Check**: `/health` endpoint for monitoring
-- **Test Page**: `http://localhost:8000/widget/test.html`
-- **Settings Tester**: `http://localhost:8000/widget/settings-tester.html`
-- **API Documentation**: Available at `/docs` when server is running
-
-### **Testing Commands**
-
+### Chat Example
 ```bash
-# Test server health
-curl http://localhost:8000/health
-
-# Test chat endpoint
 curl -X POST http://localhost:8000/chat \
-  -H "Content-Type: application/json" \
-  -d '{"question": "test"}'
-
-# View current settings
-curl http://localhost:8000/settings
-
-# Check collection info
-curl http://localhost:8000/collection/info
+  -H 'Content-Type: application/json' \
+  -d '{"question": "What services do you offer?"}'
 ```
 
-## Maintenance & Updates
+## Configuration
 
-### **Regular Tasks**
+### Environment Variables
+```bash
+OPENAI_API_KEY=your-api-key-here
+MODEL_PROVIDER=openai  # or "ollama"
+GEN_MODEL=gpt-4o-mini
+EMBED_MODEL=BAAI/bge-small-en-v1.5
+RERANK_MODEL=BAAI/bge-reranker-base
+```
 
-- **Document Updates**: Re-ingest when content changes
-- **Model Updates**: Upgrade embedding models quarterly
-- **Performance Monitoring**: Track response times and accuracy
+### Customize Appearance
+```bash
+curl -X POST http://localhost:8000/settings \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "title": "Your Company Assistant",
+    "subtitle": "Ask me anything about our services",
+    "accent": "#007bff",
+    "suggested": [
+      "What services do you offer?",
+      "How much do you charge?",
+      "Can you show me examples?"
+    ]
+  }'
+```
 
-### **Scaling Considerations**
+## Why RAG?
 
-- **Vector DB Migration**: Chroma → Qdrant when outgrowing local storage
-- **Load Balancing**: Multiple API instances for high traffic
-- **CDN Integration**: Cache widget files globally
+**Traditional Chatbots**: Trained on static data, can't access new information, may hallucinate facts.
 
-## Current Features & Capabilities
+**RAG Chatbots**: 
+- ✅ Grounded in your actual documents
+- ✅ Always up-to-date (just update documents)
+- ✅ Transparent (shows which documents support answers)
+- ✅ Cost-effective (no retraining needed)
 
-### **Implemented Features**
+## Deployment
 
-- **Full RAG Pipeline**: Document ingestion, embedding, retrieval, generation
-- **Dynamic UI**: Live color updates, theme changes, branding
-- **Custom Chat Icons**: Upload images or use emojis
-- **Responsive Design**: Mobile-first, works on all devices
-- **Settings Management**: Real-time configuration updates
-- **Multiple File Types**: PDF, DOCX, TXT, MD support
-- **Image Upload**: Custom chat icon management
-- **Suggested Questions**: Interactive question chips
-- **Smooth Animations**: Professional user experience
-- **Error Handling**: Graceful fallbacks and user feedback
+### Simple Hosting (Recommended)
+- **Render/Railway/Fly.io**: Deploy with one click
+- **Cost**: $5-20/month
+- **Setup**: 30 minutes
 
-### **Future Enhancements**
-
-- **Multi-language Support**: Internationalization
-- **User Authentication**: Login and user management
-- **Chat History**: Persistent conversation storage
-- **Analytics Dashboard**: Usage statistics and insights
-- **Advanced Search**: Filters and search options
-- **API Rate Limiting**: Production-ready security
+### Production Setup
+- **Backend**: AWS/GCP with load balancer
+- **Vector DB**: Qdrant Cloud or Pinecone
+- **Widget**: CDN (Cloudflare, Vercel)
 
 ## Troubleshooting
 
-### **Common Issues**
+**Chat not responding?**
+- Check server: `curl http://localhost:8000/health`
+- Verify API key is set
+- Check CORS configuration
 
-#### **Chat Not Responding**
+**Poor answer quality?**
+- Ensure documents are properly ingested
+- Check document quality and relevance
+- Adjust chunk size if needed
 
-- Check API server status: `curl http://localhost:8000/health`
-- Verify CORS configuration
-- Check environment variables
-
-#### **Poor Response Quality**
-
-- Review document chunking strategy
-- Adjust retrieval parameters
-- Validate document quality
-
-#### **Slow Performance**
-
-- Optimize embedding model size
+**Slow performance?**
+- Use smaller embedding model
 - Implement caching
 - Scale infrastructure
+
+## Project Structure
+
+```
+rag-agent/
+├── README.md              # This file
+├── server/                # Backend API
+│   ├── app/              # Python application
+│   │   ├── main.py       # FastAPI endpoints
+│   │   ├── rag.py        # RAG pipeline
+│   │   ├── ingest.py     # Document processing
+│   │   └── settings_store.py # Configuration
+│   ├── data/             # Your documents go here
+│   ├── widget/           # Frontend files
+│   └── README.md         # Server setup guide
+└── widget/               # Alternative frontend location
+    ├── chat.html         # Main chat interface
+    └── embed.js          # Embed script
+```
+
+## License
+
+MIT License - Use freely for personal and commercial projects.
+
+---
+
+**Need help?** Check the server README for detailed setup instructions or open an issue.
