@@ -73,7 +73,7 @@ uvicorn app.main:app --host 0.0.0.0 --port 8000
 
 The server will be available at `http://localhost:8000`
 
-## 📚 Document Ingestion
+##  Document Ingestion
 
 ### 1. Prepare Documents
 
@@ -107,7 +107,7 @@ curl http://localhost:8000/ingest/stats
 curl http://localhost:8000/collection/info
 ```
 
-## ⚙️ Configuration Management
+##  Configuration Management
 
 ### 1. Update Chatbot Settings
 
@@ -164,7 +164,7 @@ curl -X POST http://localhost:8000/settings/reset
 }
 ```
 
-## 🖼️ Image Upload & Custom Icons
+##  Image Upload & Custom Icons
 
 ### 1. Upload Custom Chat Icon
 
@@ -207,23 +207,23 @@ curl -X POST http://localhost:8000/settings \
   }'
 ```
 
-## 🔧 API Endpoints
+##  API Endpoints
 
 ### Core Endpoints
 
-| Endpoint            | Method   | Description                             |
-| ------------------- | -------- | --------------------------------------- |
-| `/`                 | GET      | API information and available endpoints |
-| `/health`           | GET      | Health check                            |
-| `/chat`             | POST     | Main chat endpoint                      |
-| `/settings`         | GET/POST | Chatbot configuration                   |
-| `/suggested`        | GET      | Quick question suggestions              |
-| `/ingest`           | POST     | Document ingestion                      |
-| `/ingest/stats`     | GET      | Ingestion statistics                    |
-| `/collection/info`  | GET      | Vector store information                |
-| `/collection/clear` | POST     | Clear all documents                     |
-| `/upload/image`     | POST     | Upload custom chat icon images          |
-| `/uploads/{filename}`| GET      | Serve uploaded images                   |
+| Endpoint              | Method   | Description                             |
+| --------------------- | -------- | --------------------------------------- |
+| `/`                   | GET      | API information and available endpoints |
+| `/health`             | GET      | Health check                            |
+| `/chat`               | POST     | Main chat endpoint                      |
+| `/settings`           | GET/POST | Chatbot configuration                   |
+| `/suggested`          | GET      | Quick question suggestions              |
+| `/ingest`             | POST     | Document ingestion                      |
+| `/ingest/stats`       | GET      | Ingestion statistics                    |
+| `/collection/info`    | GET      | Vector store information                |
+| `/collection/clear`   | POST     | Clear all documents                     |
+| `/upload/image`       | POST     | Upload custom chat icon images          |
+| `/uploads/{filename}` | GET      | Serve uploaded images                   |
 
 ### Chat Endpoint
 
@@ -261,7 +261,7 @@ curl -X POST http://localhost:8000/ingest \
   }'
 ```
 
-## 🧪 Testing
+##  Testing
 
 ### 1. Health Check
 
@@ -308,7 +308,7 @@ curl -X POST http://localhost:8000/upload/image \
   -F "type=chat_icon"
 ```
 
-## 🚀 Deployment
+##  Deployment
 
 ### Option 1: Render (Recommended for MVP)
 
@@ -352,7 +352,7 @@ EOF
 gunicorn -c gunicorn.conf.py app.main:app
 ```
 
-## 🔒 Security Considerations
+##  Security Considerations
 
 ### 1. CORS Configuration
 
@@ -387,7 +387,7 @@ For production use, consider adding rate limiting:
 pip install slowapi
 ```
 
-## 🐛 Troubleshooting
+##  Troubleshooting
 
 ### Common Issues
 
@@ -470,7 +470,7 @@ tail -f server.log
 grep -i error server.log
 ```
 
-## 📊 Monitoring
+##  Monitoring
 
 ### 1. Health Checks
 
@@ -522,7 +522,7 @@ curl http://localhost:8000/ingest/stats
 curl http://localhost:8000/collection/info
 ```
 
-## 🔄 Updates and Maintenance
+##  Updates and Maintenance
 
 ### 1. Update Dependencies
 
@@ -569,7 +569,7 @@ pkill -f uvicorn
 uvicorn app.main:app --reload --port 8000
 ```
 
-## 🎨 UI Customization
+##  UI Customization
 
 ### 1. Theme Configuration
 
@@ -615,7 +615,7 @@ curl -X POST http://localhost:8000/settings \
   }'
 ```
 
-## 📚 Additional Resources
+##  Additional Resources
 
 - [FastAPI Documentation](https://fastapi.tiangolo.com/)
 - [Chroma DB Guide](https://docs.trychroma.com/)
@@ -624,7 +624,7 @@ curl -X POST http://localhost:8000/settings \
 - [Main Project README](../README.md)
 - [Technical Concepts](../CONCEPTS.md)
 
-## 🆘 Support
+##  Support
 
 If you encounter issues:
 
@@ -636,9 +636,9 @@ If you encounter issues:
 
 For additional help, check the main project README or create an issue in the repository.
 
-## 🎯 Current Features
+##  Current Features
 
-### ✅ **Implemented Features**
+###  **Implemented Features**
 
 - **Full RAG Pipeline**: Document ingestion, embedding, retrieval, generation
 - **Dynamic Settings**: Real-time configuration updates
@@ -649,7 +649,7 @@ For additional help, check the main project README or create an issue in the rep
 - **Health Monitoring**: Built-in health checks and status endpoints
 - **Error Handling**: Graceful fallbacks and user feedback
 
-### 🚧 **Future Enhancements**
+###  **Future Enhancements**
 
 - **User Authentication**: Login and user management
 - **Advanced Analytics**: Usage statistics and insights

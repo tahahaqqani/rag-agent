@@ -1,32 +1,32 @@
 # RAG Agent Chatbot
 
-## 🎯 Project Overview
+## Project Overview
 
-This project creates a custom RAG (Retrieval-Augmented Generation) chatbot The chatbot is fully customizable, allowing you to update the interface, documents, suggested questions, branding, and more through a simple API. 
+This project creates a custom RAG (Retrieval-Augmented Generation) chatbot that can replace Chatbase on your website. The chatbot is fully customizable, allowing you to update the interface, documents, suggested questions, branding, and more through a simple API. 
 
-### 🎨 **Complete UI System**
+### **Complete UI System**
 - **Modern, sleek chat interface** with glassmorphism design
 - **Responsive design** that works on all devices
 - **Dynamic theming** with live color updates
-- **Custom chat icons** (emoji or uploaded images)
+- **Custom chat icons** (uploaded images)
 - **Smooth animations** and transitions
 - **Professional typography** using Montserrat font
 
-### 🔧 **Full RAG Pipeline**
+### **Full RAG Pipeline**
 - **Document ingestion** for PDF, DOCX, TXT, and MD files
 - **Vector embeddings** using BGE-small model
 - **Chroma DB** for fast similarity search
 - **Reranking** with BGE-reranker for better results
 - **Intelligent chunking** with overlap for context preservation
 
-### 🎛️ **Dynamic Configuration System**
+### **Dynamic Configuration System**
 - **Live settings updates** without server restarts
 - **Comprehensive theming** (colors, fonts, spacing)
 - **Custom branding** (title, subtitle, logo, icon)
 - **Suggested questions** management
 - **Chat parameters** (temperature, max tokens, context length)
 
-## 🏗️ Architecture Overview
+## Architecture Overview
 
 ```
 ┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
@@ -48,18 +48,29 @@ This project creates a custom RAG (Retrieval-Augmented Generation) chatbot The c
                                                └─────────────────┘
 ```
 
-## 🚀 Quick Start (5 minutes)
+## Quick Start (5 minutes)
 
 ### 1. **Start Your Server**
 ```bash
 cd server
+python -m venv .venv
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+pip install -r requirements.txt
 uvicorn app.main:app --reload --port 8000
 ```
-### 2. **Customize Your Chatbot**
-- Open: `http://localhost:8000/widget/settings-tester.html`
-- Change colors, title, icon, questions
 
-## 🎨 UI Features & Customization
+### 2. **Add Documents**
+```bash
+# Place documents in server/data/
+# Supported formats: PDF, DOCX, TXT, MD
+python -c "from app.ingest import ingest_folder; print(ingest_folder('./data'))"
+```
+
+### 3. **Customize Your Chatbot**
+- Open: `http://localhost:8000/widget/settings-tester.html`
+- Change colors, title, questions
+
+## UI Features & Customization
 
 ### **Theme System**
 - **Accent Color**: Primary brand color for buttons and highlights
@@ -86,7 +97,7 @@ uvicorn app.main:app --reload --port 8000
 - **Bullet Point Formatting**: Clean, readable responses
 - **Context-Aware**: Remembers conversation flow
 
-## 🛠️ Tech Stack & Justification
+## Tech Stack & Justification
 
 ### **Backend Technologies**
 
@@ -136,55 +147,8 @@ uvicorn app.main:app --reload --port 8000
 - **Models**: Llama 3, Mistral, CodeLlama
 - **Performance**: Good quality with proper prompting
 
-## 🔧 Setup Instructions
 
-### 1. **Backend Setup**
-
-```bash
-# Clone and setup
-cd server
-python -m venv .venv
-source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-pip install -r requirements.txt
-
-# Set environment variables
-export OPENAI_API_KEY="your-api-key-here"
-export MODEL_PROVIDER="openai"  # or "ollama"
-
-# Start server
-uvicorn app.main:app --reload --port 8000
-```
-
-### 2. **Document Ingestion**
-
-```bash
-# Place documents in server/data/
-# Supported formats: PDF, DOCX, TXT, MD
-
-# Run ingestion
-python -c "from app.ingest import ingest_folder; print(ingest_folder('./data'))"
-```
-
-### 3. **Configuration**
-
-```bash
-# Update chatbot settings
-curl -X POST http://localhost:8000/settings \
-  -H 'Content-Type: application/json' \
-  -d '{
-    "title": "Your Company Assistant",
-    "subtitle": "Ask me anything about our services",
-    "accent": "#007bff",
-    "suggested": [
-      "What services do you offer?",
-      "How much do you charge?",
-      "Can you show me examples?",
-      "How do I get started?"
-    ]
-  }'
-```
-
-## 🔍 Key Concepts Explained
+## Key Concepts Explained
 
 ### **RAG (Retrieval-Augmented Generation)**
 
@@ -205,7 +169,7 @@ curl -X POST http://localhost:8000/settings \
 - **Overlap**: Maintains context continuity between chunks
 - **Token Limits**: Respects LLM context window constraints
 
-## 🔒 Security Considerations
+## Security Considerations
 
 ### **CORS Configuration**
 ```python
@@ -224,7 +188,7 @@ ALLOWED_ORIGINS = [
 - Optional authentication for settings endpoint
 - HTTPS enforcement in production
 
-## 📊 Performance Optimization
+## Performance Optimization
 
 ### **Embedding Optimization**
 - **Model Selection**: BGE-small for speed, BGE-large for quality
@@ -241,7 +205,7 @@ ALLOWED_ORIGINS = [
 - **Context Pruning**: Remove irrelevant context to save tokens
 - **Response Templates**: Pre-defined response patterns
 
-## 🧪 Testing & Quality Assurance
+## Testing & Quality Assurance
 
 ### **Built-in Testing Tools**
 - **Health Check**: `/health` endpoint for monitoring
@@ -266,7 +230,7 @@ curl http://localhost:8000/settings
 curl http://localhost:8000/collection/info
 ```
 
-## 🔄 Maintenance & Updates
+## Maintenance & Updates
 
 ### **Regular Tasks**
 - **Document Updates**: Re-ingest when content changes
@@ -278,9 +242,9 @@ curl http://localhost:8000/collection/info
 - **Load Balancing**: Multiple API instances for high traffic
 - **CDN Integration**: Cache widget files globally
 
-## 💡 Current Features & Capabilities
+## Current Features & Capabilities
 
-### **✅ Implemented Features**
+### **Implemented Features**
 - **Full RAG Pipeline**: Document ingestion, embedding, retrieval, generation
 - **Dynamic UI**: Live color updates, theme changes, branding
 - **Custom Chat Icons**: Upload images or use emojis
@@ -292,7 +256,7 @@ curl http://localhost:8000/collection/info
 - **Smooth Animations**: Professional user experience
 - **Error Handling**: Graceful fallbacks and user feedback
 
-### **🚧 Future Enhancements**
+### **Future Enhancements**
 - **Multi-language Support**: Internationalization
 - **User Authentication**: Login and user management
 - **Chat History**: Persistent conversation storage
@@ -300,7 +264,7 @@ curl http://localhost:8000/collection/info
 - **Advanced Search**: Filters and search options
 - **API Rate Limiting**: Production-ready security
 
-## 🆘 Troubleshooting
+## Troubleshooting
 
 ### **Common Issues**
 
@@ -319,19 +283,3 @@ curl http://localhost:8000/collection/info
 - Implement caching
 - Scale infrastructure
 
-### **Debug Commands**
-```bash
-# Check server health
-curl http://localhost:8000/health
-
-# Test chat endpoint
-curl -X POST http://localhost:8000/chat \
-  -H "Content-Type: application/json" \
-  -d '{"question": "test"}'
-
-# View current settings
-curl http://localhost:8000/settings
-
-# Check collection info
-curl http://localhost:8000/collection/info
-```
