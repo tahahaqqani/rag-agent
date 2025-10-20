@@ -23,8 +23,7 @@ from .settings_store import (
 # Load environment variables from .env file
 load_dotenv()
 
-# Configure logging
-logging.basicConfig(level=logging.INFO)
+# Get logger from package
 logger = logging.getLogger(__name__)
 
 # Environment variables

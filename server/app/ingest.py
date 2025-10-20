@@ -9,8 +9,7 @@ from docx import Document as DocxDocument
 from langchain.docstore.document import Document
 from .rag import vectorstore
 
-# Configure logging
-logging.basicConfig(level=logging.INFO)
+# Get logger from package
 logger = logging.getLogger(__name__)
 
 # Chunking configuration

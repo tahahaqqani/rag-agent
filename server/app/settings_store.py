@@ -4,8 +4,7 @@ from pathlib import Path
 from typing import Dict, Any, Optional
 from datetime import datetime
 
-# Configure logging
-logging.basicConfig(level=logging.INFO)
+# Get logger from package
 logger = logging.getLogger(__name__)
 
 # Default configuration

@@ -7,8 +7,7 @@ from langchain.docstore.document import Document
 from FlagEmbedding import FlagReranker
 from langchain_huggingface import HuggingFaceEmbeddings
 
-# Configure logging
-logging.basicConfig(level=logging.INFO)
+# Get logger from package
 logger = logging.getLogger(__name__)
 
 # Embeddings (BGE small - good balance of quality and speed)

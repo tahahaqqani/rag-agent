@@ -1,8 +1,8 @@
-# RAG Chatbot Server - Complete Setup Guide
+# Server Setup Guide
 
-This guide will help you set up and run the RAG chatbot server that powers your custom chatbot widget.
+Quick setup guide for the RAG chatbot server backend.
 
-## 🚀 Quick Start
+## Quick Start
 
 ### 1. Prerequisites
 
