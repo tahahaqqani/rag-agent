@@ -115,10 +115,10 @@ curl -X POST http://localhost:8000/settings \
 **Traditional Chatbots**: Trained on static data, can't access new information, may hallucinate facts.
 
 **RAG Chatbots**: 
-- ✅ Grounded in your actual documents
-- ✅ Always up-to-date (just update documents)
-- ✅ Transparent (shows which documents support answers)
-- ✅ Cost-effective (no retraining needed)
+- Grounded in your actual documents
+- Always up-to-date (just update documents)
+- Transparent (shows which documents support answers)
+- Cost-effective (no retraining needed)
 
 ## Deployment
 
